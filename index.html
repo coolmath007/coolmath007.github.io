@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Cool Math Games</title>
+		<link href="website_stylesheet.css" rel="stylesheet" type="text/css">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<script>
+			var PlayerRegistrationData = [["Test","User","2013-06-12",10,"Female","test.user@gmail.com",[["1 x 1","1","Correct"],["2 x 2","4","Correct"],["3 x 3","6","Incorrect"]]]];
+			
+			//This function creates an array that the player data is stored in before it's added to the PlayerRegistrationData global array			
+			function create_player_data(fname,lname,dob,age,gender,email){
+				var playerdata = ["new"];
+				playerdata.pop();
+				playerdata.push(fname);
+				playerdata.push(lname);
+				playerdata.push(dob);
+				playerdata.push(age);
+				playerdata.push(gender);
+				playerdata.push(email);
+				playerdata.push([]);
+				return playerdata;
+			}
+			
+			//This function calculates and returns the player's age based on their date of birth
+			function calc_age(date_of_birth){
+				const d = new Date();
+				var age_c;
+				age_c = parseInt(d.getFullYear()) - parseInt(date_of_birth.substr(0,4));
+				if (parseInt(d.getMonth()+1) < parseInt(date_of_birth.substr(5,7))) {
+					age_c = parseInt(age_c) - 1;
+				} else if (parseInt(d.getMonth()+1) == parseInt(date_of_birth.substr(5,7))) {
+					if (parseInt(d.getDate()-1) <= parseInt(date_of_birth.substr(8,10))) {
+					age_c = parseInt(parseInt(age_c)-1);
+					}
+				}
+				return age_c;
+			}
+			
+			//This function stores the player information provided in the registration form when the "Register" button is clicked
+			function registerPlayer() {
+				
+				//Validation logic
+				if (!validateForm()) {
+					return; // Stop further execution if validation fails
+				}
+								
+				//Enabling the "Start", "Next" and "End" buttons
+				var fields = document.querySelectorAll('.registration_button_2,.registration_button_3');
+				for (var i = 0; i < fields.length; i++) {
+					fields[i].disabled = false;
+				}
+				
+				//Disabling the "Register" button and the Registration Form
+				var fields = document.querySelectorAll('.registration_input,.registration_select,.registration_button');
+				for (var i = 0; i < fields.length; i++) {
+					fields[i].disabled = true;
+				}
+				
+				//Creating the variables to store the player information provided in the registration form
+				var fname = document.getElementById("first_name").value;
+				var lname = document.getElementById("last_name").value;
+				var dob = document.getElementById("dob").value;
+				var age = calc_age(dob);
+				document.getElementById("age").value = age;
+				var gender = document.getElementById("gender").value;
+				var email = document.getElementById("email").value;
+				
+				//Check if a registering user already exist to determine if their user data should be added to PlayerRegistrationData global array
+				var check_list = 0;
+				for (var i = 0; i < PlayerRegistrationData.length; i++) {
+					if (PlayerRegistrationData[i][0] == fname && PlayerRegistrationData[i][1] == lname && PlayerRegistrationData[i][2] == dob && PlayerRegistrationData[i][4] == gender && PlayerRegistrationData[i][5] == email ) {
+						break;
+					} else {
+						check_list++;
+					}
+				}
+				
+				if (check_list == PlayerRegistrationData.length){
+						PlayerRegistrationData.push(create_player_data(fname,lname,dob,age,gender,email));
+				}
+			}
+		</script>
+	</head>
+	
+	<body>
+		<div class="container">
+			<table style="border:2px solid #e2e2e2;border-collapse:collapse;" align="center" width="100%">
+					<td style="border:2px solid #e2e2e2;background-image: url('gamebackground.png'); background-size: contain; border-collapse:collapse; width: 70%; vertical-align: bottom;">
+						<div class="play_area" style="width: 100%;" align="center">
+							<form action="#" method="post" id="playerForm">
+								<p id="equation"></p>
+								<input class="play_area_input" type="text" id="answer" placeholder="Input Answer" disabled=true><br><br>
+								<button class="play_area_button" type="button" onclick="checkAnswer()" disabled=true>Check</button>
+								<button class="registration_button_2" type="button" onclick="PlayGame()" id="next" disabled=true>Next</button>
+								<p id="result"></p>
+								<p id="pd"></p>
+								
+								<script>
+									var rand_num_1, rand_num_2;
+									
+									//This function initiates generating and printing the equations to the screen
+									function PlayGame(){
+
+										console.log("PlayGame function called"); // Log to check if the function is called
+										var fields = document.querySelectorAll('.play_area_input,.play_area_button');
+										for (var i = 0; i < fields.length; i++) {
+										fields[i].disabled = false;
+										}
+										
+										var fname = document.getElementById("first_name").value;
+										
+										// Generating the first random number between 1 and 9
+										rand_num_1 = Math.ceil(Math.random()*9);
+										
+										// Generating the second ranom number between 1 and 5
+										rand_num_2 = Math.ceil(Math.random()*5);
+										
+										//Create and print the equation of random numbers generated
+										document.getElementById("equation").innerHTML = "<h1> Equation: " + rand_num_1 + " x " + rand_num_2 + "</h1>";
+										
+									}
+									
+									//This function creates an array out of the player's response that will be stored
+									function player_response_data(equation,response,status){
+										var playerresponse = ["new"];
+										playerresponse.pop();
+										playerresponse.push(equation);
+										playerresponse.push(response);
+										playerresponse.push(status);
+										return playerresponse;
+									}
+									
+									//This function checks the answer given by the player and stores it the corresponding player array in the PlayerRegistrationData array
+									function checkAnswer(){
+										var userAnswer = document.getElementById("answer").value;
+										var equation = rand_num_1 + " x " + rand_num_2;
+										var response = document.getElementById("answer").value;
+										var fname = document.getElementById("first_name").value;
+										
+										//check if the answer provide is correct and label the response accordingly							
+										if (userAnswer == rand_num_1 * rand_num_2) {
+										document.getElementById("result").innerHTML = "<h2> Correct! </h2>";
+										var status = "Correct";
+										} else {
+										document.getElementById("result").innerHTML = "<h2> Incorrect. The correct answer is " + rand_num_1 * rand_num_2 + "</h2>";
+										var status = "Incorrect";
+										}
+										
+										//Find the player array in the PlayerRegistrationData array and stores their respond
+										for (var i = 0; i < PlayerRegistrationData.length; i++) {
+											if (PlayerRegistrationData[i][0] == fname){
+												PlayerRegistrationData[i][6].push(player_response_data(equation,userAnswer,status));
+											}
+										}
+										
+										findPercentageScore();
+										showAllStats();
+									}
+									
+									//Insert comment here
+									function clearForm() {
+										document.getElementById("playerForm").reset();
+
+										/*
+										var form = document.getElementById("playerForm");
+										if (form) {
+										form.reset();
+											document.write("Clear Form");
+										}*/
+									}
+
+									//This function enables the "Register" button and the Registration Form
+									function enableInputs() {
+																		
+										var fields = document.querySelectorAll('.registration_input,.registration_select,.registration_button');
+										for (var i = 0; i < fields.length; i++) {
+											fields[i].disabled = false;
+										}
+									}
+
+									//This function disables the "Start", "Next" and "End" buttons as well as the input and button in the Play Area
+									function disableButtons() {
+										
+										var fields = document.querySelectorAll('.registration_button_2,.registration_button_3,.play_area_input,.play_area_button');
+										for (var i = 0; i < fields.length; i++) {
+											fields[i].disabled = true;
+										}
+										
+									}
+									
+									function endGame(){
+										console.log("endGame function called");
+										findPercentageScore();
+										clearForm();
+										enableInputs();
+										disableButtons();
+									}
+
+								</script>
+							</form>
+						</div>
+						<div align="right">
+							<button class="registration_button_2" type="submit" onclick="PlayGame()" id="start" disabled=true>Start</button>
+							<button class="registration_button_2" type="button" onclick="endGame()" id="end" disabled=true>End</button>
+						</div>
+					</td>
+					<td style="border:2px solid #e2e2e2; border-collapse:collapse; width: 0%; vertical-align: top;" rowspan="2" align="center">
+						<div class="registration">
+							<table style="border:2px solid #e2e2e2; width: 100%;background-color: #646d47;">
+								<tr>
+									<th style="font-size: x-large; color: #e2e2e2;" align="center">Online Math Sign Up Form</th>
+								</tr>
+							</table>
+							</br></br>
+							<table>
+								<tr>
+									<td align="center">
+										<form method="post" onsubmit="return validateForm(event)">
+											<label class="registration_label" for="first_name">First Name:</label><br>
+											<input class="registration_input" type="text" id="first_name" name="first_name" required>
+											<span id="first_name_error" class="error-message"></span>
+											<br><br>
+			
+											<label class="registration_label" for="last_name">Last Name:</label><br>
+											<input class="registration_input" type="text" id="last_name" name="last_name" required>
+											<span id="last_name_error" class="error-message"></span>
+											<br><br>
+			
+											<label class="registration_label" for="dob">Date of Birth:</label><br>
+											<input class="registration_input" type="date" id="dob" name="dob" required>
+											<span id="dob_error" class="error-message"></span>
+											<br><br>
+			
+											<label class="registration_label" for="age">Age:</label><br>
+											<input class="registration_input_2" type="number" id="age" name="age" disabled=true>
+											<span id="age_error" class="error-message"></span>
+											<br><br>
+			
+											<label class="registration_label" for="gender">Gender:</label><br>
+											<select class="registration_select" id="gender" name="gender" required>
+												<option class="registration_option" value="male">Male</option>
+												<option class="registration_option" value="female">Female</option>
+											</select>
+											<span id="gender_error" class="error-message"></span>
+											<br><br>
+			
+											<label class="registration_label" for="email">Email Address:</label><br>
+											<input class="registration_input" type="email" id="email" name="email" required pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$">
+											<span id="email_error" class="error-message"></span>
+											<br><br>
+			
+											<!-- Add similar lines for other form entries -->
+											<button class="registration_button" type="button" onclick="return registerPlayer()">Register</button>
+											</br></br>
+										</form>
+			
+										<script>
+											function validateForm() {
+												// Reset all error messages
+												var errorMessages = document.querySelectorAll('.error-message');
+												for (var i = 0; i < errorMessages.length; i++) {
+													errorMessages[i].textContent = '';
+												}
+												
+																				// Validation for First Name
+												var firstNameInput = document.getElementById("first_name").value;
+												var firstNameError = document.getElementById("first_name_error");
+			
+												if (firstNameInput.length < 4) {
+													firstNameError.textContent = "First Name must be at least 4 characters long.";
+													return false; // Prevent form submission
+												}
+			
+												// Validation for Last Name
+												var lastNameInput = document.getElementById("last_name").value;
+												var lastNameError = document.getElementById("last_name_error");
+			
+												if (lastNameInput.length < 4) {
+													lastNameError.textContent = "Last Name must be at least 4 characters long.";
+													return false; // Prevent form submission
+												}
+												
+												// Prevent the default form submission behavior
+												event.preventDefault();
+												// Add similar blocks for other input fields
+			
+												// Continue with form submission if all validations pass
+												return true;
+											}
+										</script>
+										<br>
+										<div align="center">
+											<button class="registration_button_3" type="button" onclick="findPercentageScore()" id="percentageScore" disabled=true>Percentage Score</button>
+										</div>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+			
+				<tr>
+					<td style="border:2px solid #e2e2e2;border-collapse:collapse; vertical-align: top;">
+						<div class="stats_display" style="width: 100%; height: 15vh;">
+							<table style="border:2px solid #e2e2e2; width: 100%;background-color: #646d47;">
+								<tr>
+									<th align="center" style="font-size: x-large; color: #e2e2e2;">Your Progress</th>
+								</tr>
+							</table>
+							</br>
+							<table style="width: 100%;" id="showpercentage">
+								<tr>
+									<td>
+										<span>Name: </span><span id="player_name"></span></br>
+										<span>Number of Equations Done: </span><span id="number_of_equations"></span></br>
+										<span>Number of Correct Answers: </span><span id="correct_answers"></span></br>
+									</td>
+									<td>
+										<span>Current Percentage Score: </span><span id="current_percentage_score"></span></br>
+										<span>Incorrect Equations: </span><span id="incorrect_equations"></span></br>
+										<span>Current Date: </span><span id="current_date"></span>
+									</td>
+								</tr>
+							</table>							
+
+							<script>	
+								//This function calculates and update the information that's being displayed in the "Show Percentage" Display area
+								function findPercentageScore(){
+									var fname = document.getElementById("first_name").value;
+									var lname = document.getElementById("last_name").value;
+									var no_of_correct = 0;
+									var no_of_incorrect = 0;
+									var percentage_score = 0;
+									const curr_date = new Date();
+									
+									for (var i = 0; i < PlayerRegistrationData.length; i++) {
+									
+										//Locate the current player array to facilitate calculation of the player Statistics
+										if(PlayerRegistrationData[i][0] == fname){
+											document.getElementById("player_name").innerHTML = fname + " " + lname
+											document.getElementById("number_of_equations").innerHTML = PlayerRegistrationData[i][6].length;
+											
+											//Calculating the number of correct reponses found in the player's response data
+											for (var j = 0; j < PlayerRegistrationData[i][6].length; j++) {
+												if(PlayerRegistrationData[i][6][j][2] == "Correct"){
+													no_of_correct++;
+												}
+											}
+											
+											document.getElementById("correct_answers").innerHTML = no_of_correct;
+											
+											//Calculating the percentage score
+											if(PlayerRegistrationData[i][6].length > 0){
+												percentage_score = Math.round((no_of_correct / PlayerRegistrationData[i][6].length)*100);
+											} else {
+												percentage_score = 0;
+											}
+											document.getElementById("current_percentage_score").innerHTML = percentage_score + "%";
+											
+											//Calculating the number of incorrect reponses found in the player's response data
+											for (var k = 0; k < PlayerRegistrationData[i][6].length; k++) {
+												if(PlayerRegistrationData[i][6][k][2] == "Incorrect"){
+													no_of_incorrect++;
+												}
+											}
+											
+											document.getElementById("incorrect_equations").innerHTML = no_of_incorrect;
+											document.getElementById("current_date").innerHTML = curr_date.getMonth() + "/" + curr_date.getDate() + "/" + curr_date.getFullYear();
+										}
+									}
+								}	
+							</script>
+						</div>
+					</td>
+				</tr>
+			</table>	
+		</div>
+		<div id="container;">
+			<table style="border:2px solid #e2e2e2;border-collapse:collapse; width: 100%;" align="center">
+				<tr>
+					<td style="border:2px solid #e2e2e2; border-collapse:collapse; vertical-align: top; width: 40%;">
+						<table style="border:2px solid #e2e2e2; width: 100%;background-color: #646d47;">
+							<tr>
+								<th style="font-size: x-large; color: #e2e2e2;" align="center">Charts</th>
+							</tr>
+						</table>
+
+						<div class="charts_display">
+							<script>
+								function showCharts() {
+									// Count instances and calculate percentages
+									var totalPlayers = PlayerRegistrationData.length - 1; // Subtracting 1 for the header
+									var femaleCount = 0;
+		
+									for (var i = 1; i < PlayerRegistrationData.length; i++) {
+										if (PlayerRegistrationData[i][4] === "Female") {
+											femaleCount++;
+										}
+									}
+		
+									var maleCount = totalPlayers - femaleCount;
+									var femalePercentage = (femaleCount / totalPlayers) * 100;
+									var malePercentage = (maleCount / totalPlayers) * 100;
+		
+									// Create bar charts using CSS styles
+									var genderChart = "<h3>Gender Distribution</h3>";
+									genderChart += "Female: <div class='chart-bar' style='width: " + femalePercentage + "%;'></div> " + femalePercentage.toFixed(1) + "%<br>";
+									genderChart += "Male: <div class='chart-bar' style='width: " + malePercentage + "%;'></div> " + malePercentage.toFixed(1) + "%<br>";
+		
+									// ... Repeat the process for the percentage score distribution
+		
+									// Display the charts in the "showcharts" div
+									document.getElementById("showcharts").innerHTML = genderChart + percentageScoreChart;
+								}
+		
+								// Call showCharts() every 5 seconds after the page loads
+								window.onload = function () {
+									setInterval(showCharts, 5000);
+								};
+							</script>
+						<div>
+					</td>
+					<td>
+						<table style="border:2px solid #e2e2e2; width: 100%;background-color: #646d47;">
+							<tr>
+								<th style="font-size: x-large; color: #e2e2e2;" align="center">Player Information</th>
+							</tr>
+						</table>
+						<div class="player_info_display">
+								<span id="registered_players"></span>
+							
+							<script>
+								//This function returns the player information for the list of registered players
+								function showAllStats(){
+									var player_no = 0;
+									var player_info = "";
+									var percentage_score = 0;
+									
+									for (var i = 0; i < PlayerRegistrationData.length; i++) {
+										var no_of_correct = 0;
+										player_no = i + 1;
+										
+										for (var j = 0; j < PlayerRegistrationData[i][6].length; j++) {
+												if(PlayerRegistrationData[i][6][j][2] == "Correct"){
+													no_of_correct++;
+												}
+											}
+										
+										percentage_score = Math.round((no_of_correct / PlayerRegistrationData[i][6].length)*100);
+										player_info = player_info + "</br></br>" + player_no + ". " + 
+										PlayerRegistrationData[i].slice(0,2) + "," + PlayerRegistrationData[i][3] + ", " + 
+										"percentage score: " + percentage_score + "%" +
+										"</br> Question Entries: " + PlayerRegistrationData[i][6];
+									}
+									
+									document.getElementById("registered_players").innerHTML = player_info;
+								}
+							</script>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,87 @@
+/* General WebPage */
+.registration_button:hover{
+	background-color: #a2af79;
+}
+
+body {
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	background-color: #c2d38a;
+}
+
+.container {
+	width: 100%;
+	margin: 0px auto;
+	padding: 0px;
+	display: flex;
+	height: 97vh;
+	}
+
+.weblayout {
+	border:1px solid rgb(255, 255, 255);
+	border-collapse:collapse;
+}
+
+/* REGISTRATION */
+.registration {
+	width: 350px;
+	height: 525px;
+}
+
+.registration_label, .registration_option {
+	margin: 10px 0px 10px 10px;
+	font-weight: 500;
+}
+
+.registration_button,.registration_button_2,.registration_button_3 {
+	width: 100px;
+	height: 50px;
+	background-color: #646d47;
+	color: #c2d38a;
+	font-size: 16px;
+}
+
+.registration_input, .registration_input_2 {
+	width: 75%;
+	height: 25px;
+	border: 1px solid #ccc;
+}
+
+.registration_select {
+	width: 50%;
+	border: 1px solid #ccc;
+}
+
+
+/* PLAY AREA */
+.play_area {
+	width: 400px;
+	height: 275px;
+}
+
+.play_area_button {
+	width: 100px;
+	height: 50px;
+	border: none;
+	background-color: #646d47;
+	color: #c2d38a;
+	font-size: 16px;
+}
+
+.play_area_input {
+	width: 25%;
+	border: 1px solid #ccc;
+}
+
+/* Statistics Display Area */
+.stats_display {
+	width: 400px;
+	height: 275px;
+	font-weight: 700;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+/* Player Info Display Area */
+.player_info_display {
+	width: 400px;
+	height: 275px;
+}
+
