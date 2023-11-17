@@ -161,13 +161,7 @@
 									//Insert comment here
 									function clearForm() {
 										document.getElementById("playerForm").reset();
-
-										/*
-										var form = document.getElementById("playerForm");
-										if (form) {
-										form.reset();
-											document.write("Clear Form");
-										}*/
+										document.getElementById("registration_form").reset();
 									}
 
 									//This function enables the "Register" button and the Registration Form
@@ -216,7 +210,7 @@
 							<table>
 								<tr>
 									<td align="center">
-										<form method="post" onsubmit="return validateForm(event)">
+										<form method="post" id="registration_form" onsubmit="return validateForm(event)">
 											<label class="registration_label" for="first_name">First Name:</label><br>
 											<input class="registration_input" type="text" id="first_name" name="first_name" required>
 											<span id="first_name_error" class="error-message"></span>
