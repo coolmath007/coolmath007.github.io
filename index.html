@@ -46,7 +46,7 @@
 				}
 								
 				//Enabling the "Start", "Next" and "End" buttons
-				var fields = document.querySelectorAll('.registration_button_2,.registration_button_3');
+				var fields = document.querySelectorAll('.start_button,.registration_button_2,.registration_button_3');
 				for (var i = 0; i < fields.length; i++) {
 					fields[i].disabled = false;
 				}
@@ -101,7 +101,7 @@
 									
 									//This function initiates generating and printing the equations to the screen
 									function PlayGame(){
-
+																							
 										console.log("PlayGame function called"); // Log to check if the function is called
 										var fields = document.querySelectorAll('.play_area_input,.play_area_button');
 										for (var i = 0; i < fields.length; i++) {
@@ -118,6 +118,16 @@
 										
 										//Create and print the equation of random numbers generated
 										document.getElementById("equation").innerHTML = "<h1> Equation: " + rand_num_1 + " x " + rand_num_2 + "</h1>";
+										
+										//Disable the start button after it was clicked 
+										var fields = document.querySelectorAll('.start_button');
+										for (var i = 0; i < fields.length; i++) {
+											fields[i].disabled = true;
+										}
+										
+										//Reset the Answer Input and Result area when the Next button is clicked between questions
+										document.getElementById("answer").value = "";
+										document.getElementById("result").innerHTML = "";
 										
 									}
 									
@@ -154,14 +164,22 @@
 											}
 										}
 										
+										//Disable the check button after it is clicked 
+										var fields = document.querySelectorAll('.play_area_button');
+										for (var i = 0; i < fields.length; i++) {
+											fields[i].disabled = true;
+										}
+										
 										findPercentageScore();
 										showAllStats();
 									}
 									
 									//Insert comment here
 									function clearForm() {
-										document.getElementById("playerForm").reset();
 										document.getElementById("registration_form").reset();
+										document.getElementById("answer").value = "";
+										document.getElementById("result").innerHTML = "";
+										document.getElementById("equation").innerHTML = "";
 									}
 
 									//This function enables the "Register" button and the Registration Form
@@ -176,7 +194,7 @@
 									//This function disables the "Start", "Next" and "End" buttons as well as the input and button in the Play Area
 									function disableButtons() {
 										
-										var fields = document.querySelectorAll('.registration_button_2,.registration_button_3,.play_area_input,.play_area_button');
+										var fields = document.querySelectorAll('.start_button,.registration_button_2,.registration_button_3,.play_area_input,.play_area_button');
 										for (var i = 0; i < fields.length; i++) {
 											fields[i].disabled = true;
 										}
@@ -195,7 +213,7 @@
 							</form>
 						</div>
 						<div align="right">
-							<button class="registration_button_2" type="submit" onclick="PlayGame()" id="start" disabled=true>Start</button>
+							<button class="start_button" type="submit" onclick="PlayGame()" id="start" disabled=true>Start</button>
 							<button class="registration_button_2" type="button" onclick="endGame()" id="end" disabled=true>End</button>
 						</div>
 					</td>
