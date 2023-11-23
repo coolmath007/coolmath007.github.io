@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 		<title>Cool Math Games</title>
 		<link href="website_stylesheet.css" rel="stylesheet" type="text/css">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset="UTF-8">
 
 		<script>
 			var PlayerRegistrationData = [];
@@ -85,14 +86,15 @@
 	
 	<body>
 		<div class="container">
-			<table style="border:2px solid #e2e2e2;border-collapse:collapse;" align="center" width="100%">
-					<td style="border:2px solid #e2e2e2;background-image: url('gamebackground.png'); background-size: contain; border-collapse:collapse; width: 70%; vertical-align: bottom;">
-						<div class="play_area" style="width: 100%;" align="center">
+			<table style="border:2px solid #e2e2e2; border-collapse:collapse; margin: 0 auto; width: 100%;">
+				<tr>
+					<td style="border:2px solid #e2e2e2;background-image: url('gamebackground.png'); background-size: contain; border-collapse:collapse; width: 70%; vertical-align: bottom;"	>
+						<div class="play_area" style="width: 100%; margin: 0 auto; text-align: center;">
 							<form action="#" method="post" id="playerForm">
 								<p id="equation"></p>
-								<input class="play_area_input" type="text" id="answer" placeholder="Input Answer" disabled=true><br><br>
-								<button class="play_area_button" type="button" onclick="checkAnswer()" disabled=true>Check</button>
-								<button class="registration_button_2" type="button" onclick="PlayGame()" id="next" disabled=true>Next</button>
+								<input class="play_area_input" type="text" id="answer" placeholder="Input Answer" disabled><br><br>
+								<button class="play_area_button" type="button" onclick="checkAnswer()" disabled>Check</button>
+								<button class="registration_button_2" type="button" onclick="PlayGame()" id="next" disabled>Next</button>
 								<p id="result"></p>
 								<p id="pd"></p>
 								
@@ -212,22 +214,22 @@
 								</script>
 							</form>
 						</div>
-						<div align="right">
-							<button class="start_button" type="submit" onclick="PlayGame()" id="start" disabled=true>Start</button>
-							<button class="registration_button_2" type="button" onclick="endGame()" id="end" disabled=true>End</button>
+						<div style="text-align: right;">
+							<button class="start_button" type="submit" onclick="PlayGame()" id="start" disabled>Start</button>
+							<button class="registration_button_2" type="button" onclick="endGame()" id="end" disabled>End</button>
 						</div>
 					</td>
-					<td style="border:2px solid #e2e2e2; border-collapse:collapse; width: 0%; vertical-align: top;" rowspan="2" align="center">
+					<td style="border: 2px solid #e2e2e2; border-collapse: collapse; width: 0%; vertical-align: top; text-align: center;" rowspan="2">
 						<div class="registration">
 							<table style="border:2px solid #e2e2e2; width: 100%;background-color: #646d47;">
 								<tr>
-									<th style="font-size: x-large; color: #e2e2e2;" align="center">Online Math Sign Up Form</th>
+									<th style="font-size: x-large; color: #e2e2e2; text-align: center;">Online Math Sign Up Form</th>
 								</tr>
 							</table>
-							</br></br>
-							<table>
+							<br><br>
+							<table class= "form_area">
 								<tr>
-									<td align="center">
+									<td>
 										<form method="post" id="registration_form" onsubmit="return validateForm(event)">
 											<label class="registration_label" for="first_name">First Name:</label><br>
 											<input class="registration_input" type="text" id="first_name" name="first_name" required>
@@ -245,15 +247,17 @@
 											<br><br>
 			
 											<label class="registration_label" for="age">Age:</label><br>
-											<input class="registration_input_2" type="number" id="age" name="age" disabled=true>
+											<input class="registration_input_2" type="number" id="age" name="age" disabled>
 											<span id="age_error" class="error-message"></span>
 											<br><br>
 			
 											<label class="registration_label" for="gender">Gender:</label><br>
-											<select class="registration_select" id="gender" name="gender" required>
+											<select class="registration_select" style="width: 110px;" id="gender" name="gender" required>
+												<option class="registration_option" value="" disabled selected>Select Gender</option>
 												<option class="registration_option" value="male">Male</option>
 												<option class="registration_option" value="female">Female</option>
 											</select>
+
 											<span id="gender_error" class="error-message"></span>
 											<br><br>
 			
@@ -264,7 +268,7 @@
 			
 											<!-- Add similar lines for other form entries -->
 											<button class="registration_button" type="button" onclick="return registerPlayer()">Register</button>
-											</br></br>
+											<br>
 										</form>
 			
 										<script>
@@ -302,8 +306,8 @@
 											}
 										</script>
 										<br>
-										<div align="center">
-											<button class="registration_button_3" type="button" onclick="findPercentageScore()" id="percentageScore" disabled=true>Percentage Score</button>
+										<div style="text-align: center;">
+											<button class="registration_button_3" type="button" onclick="findPercentageScore()" id="percentageScore" disabled>Percentage Score</button>
 										</div>
 									</td>
 								</tr>
@@ -317,20 +321,20 @@
 						<div class="stats_display" style="width: 100%; height: 15vh;">
 							<table style="border:2px solid #e2e2e2; width: 100%;background-color: #646d47;">
 								<tr>
-									<th align="center" style="font-size: x-large; color: #e2e2e2;">Your Progress</th>
+									<th style="font-size: x-large; color: #e2e2e2; text-align: center;">Your Progress</th>
 								</tr>
 							</table>
-							</br>
+							<br>
 							<table style="width: 100%;" id="showpercentage">
 								<tr>
 									<td>
-										<span>Name: </span><span id="player_name"></span></br>
-										<span>Number of Equations Done: </span><span id="number_of_equations"></span></br>
-										<span>Number of Correct Answers: </span><span id="correct_answers"></span></br>
+										<span>Name: </span><span id="player_name"></span><br>
+										<span>Number of Equations Done: </span><span id="number_of_equations"></span><br>
+										<span>Number of Correct Answers: </span><span id="correct_answers"></span><br>
 									</td>
 									<td>
-										<span>Current Percentage Score: </span><span id="current_percentage_score"></span></br>
-										<span>Incorrect Equations: </span><span id="incorrect_equations"></span></br>
+										<span>Current Percentage Score: </span><span id="current_percentage_score"></span><br>
+										<span>Incorrect Equations: </span><span id="incorrect_equations"></span><br>
 										<span>Current Date: </span><span id="current_date"></span>
 									</td>
 								</tr>
@@ -389,12 +393,12 @@
 			</table>	
 		</div>
 		<div id="container;">
-			<table style="border:2px solid #e2e2e2;border-collapse:collapse; width: 100%;" align="center">
+			<table style="border: 2px solid #e2e2e2; border-collapse: collapse; width: 100%; margin: 0 auto;">
 				<tr>
 					<td style="border:2px solid #e2e2e2; border-collapse:collapse; vertical-align: top; width: 40%;">
 						<table style="border:2px solid #e2e2e2; width: 100%;background-color: #646d47;">
 							<tr>
-								<th style="font-size: x-large; color: #e2e2e2;" align="center">Charts</th>
+								<th style="font-size: x-large; color: #e2e2e2; text-align: center;">Charts</th>
 							</tr>
 						</table>
 
@@ -431,12 +435,12 @@
 									setInterval(showCharts, 5000);
 								};
 							</script>
-						<div>
+						</div>
 					</td>
 					<td>
 						<table style="border:2px solid #e2e2e2; width: 100%;background-color: #646d47;">
 							<tr>
-								<th style="font-size: x-large; color: #e2e2e2;" align="center">Player Information</th>
+								<th style="font-size: x-large; color: #e2e2e2; text-align: center;">Player Information</th>
 							</tr>
 						</table>
 						<div class="player_info_display">
