@@ -22,6 +22,13 @@ body {
 }
 
 /* REGISTRATION */
+.form_area {
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
 .registration {
 	width: 350px;
 	height: 525px;
@@ -32,7 +39,7 @@ body {
 	font-weight: 500;
 }
 
-.registration_button,.registration_button_2,.registration_button_3,.start_button {
+.registration_button,.registration_button_2,.registration_button_3, .start_button {
 	width: 100px;
 	height: 50px;
 	background-color: #646d47;
